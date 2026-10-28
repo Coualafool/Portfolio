@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio de compétences — Orchestration IA &amp; Infrastructures</title>
+<style>
+  :root{
+    --bg:#0b0f1a; --card:#131a2b; --card2:#0f1626; --line:#263149;
+    --fg:#e7ecf5; --muted:#93a0bd; --accent:#5b8cff; --accent2:#37d3a6;
+    --warn:#ffb454; --brain:#5b8cff; --hands:#37d3a6;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 700px at 70% -10%, #16203a 0%, var(--bg) 55%);
+    color:var(--fg);
+    font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:60px 26px 100px}
+
+  /* ---- header ---- */
+  header{display:flex; flex-wrap:wrap; gap:26px; align-items:flex-start; justify-content:space-between;
+    border-bottom:1px solid var(--line); padding-bottom:30px}
+  .id-block{flex:1 1 480px}
+  .tag{display:inline-block; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent2); border:1px solid var(--line); border-radius:999px; padding:5px 12px; margin-bottom:16px}
+  h1{font-size:36px; line-height:1.12; margin:0 0 8px; letter-spacing:-.6px}
+  h1 span{color:var(--accent)}
+  .role{font-size:18px; color:var(--muted); margin:0 0 14px}
+  .summary{font-size:16px; color:#cdd6ea; max-width:64ch; margin:0}
+  .badges{display:flex; flex-direction:column; gap:8px; flex:0 1 220px}
+  .badge{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 16px;
+    box-shadow:var(--shadow)}
+  .badge .k{font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted)}
+  .badge .v{font-size:15px; font-weight:600; margin-top:2px}
+  .badge a{display:block; font-size:12px; color:var(--accent2); text-decoration:none; margin-top:5px}
+  .badge a:hover{text-decoration:underline}
+
+  /* ---- sections ---- */
+  section{margin-top:46px}
+  h2{font-size:21px; margin:0 0 16px; display:flex; align-items:center; gap:10px}
+  h2 .bar{width:5px; height:20px; border-radius:3px; background:var(--accent)}
+  p{color:#cdd6ea; margin:0 0 12px}
+
+  /* ---- skills grid ---- */
+  .skills{display:grid; grid-template-columns:1fr 1fr; gap:16px}
+  .skill{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px 22px;
+    box-shadow:var(--shadow)}
+  .skill .t{font-weight:700; font-size:16px; margin:0 0 10px; display:flex; align-items:center; gap:10px}
+  .skill .t .ic{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+    background:color-mix(in srgb, var(--accent) 18%, transparent); color:var(--accent); font-size:15px}
+  .skill ul{margin:0; padding-left:18px; color:#b9c6e2; font-size:14px}
+  .skill li{margin:4px 0}
+  .skill li b{color:var(--fg)}
+
+  /* ---- architecture diagram ---- */
+  .diagram{background:var(--card); border:1px solid var(--line); border-radius:18px;
+    padding:30px; box-shadow:var(--shadow); margin-top:6px}
+  .nodes{display:grid; grid-template-columns:1fr auto 1fr; align-items:center}
+  .node{background:var(--card2); border:1px solid var(--line); border-radius:14px; padding:22px; text-align:center}
+  .node .role{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .node .name{font-size:21px; font-weight:700; margin:6px 0 4px}
+  .node .desc{font-size:13px; color:var(--muted); margin:0}
+  .node .model{font-size:12px; margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); color:#b9c6e2}
+  .node .model b{color:var(--fg)}
+  .node.brain{border-color:color-mix(in srgb, var(--brain) 55%, var(--line))}
+  .node.hands{border-color:color-mix(in srgb, var(--hands) 55%, var(--line))}
+  .node .dot{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+  .dot.b{background:var(--brain)} .dot.h{background:var(--hands)} .dot.n{background:var(--warn)}
+  .pipe{display:flex; flex-direction:column; align-items:center; gap:6px; padding:0 14px; min-width:150px; text-align:center}
+  .pipe .lbl{font-size:11.5px; color:var(--muted); letter-spacing:.04em}
+  .pipe .arrows{font-size:20px; color:var(--warn); letter-spacing:2px}
+  .secure{margin-top:18px; text-align:center; font-size:13px; color:var(--muted);
+    border-top:1px dashed var(--line); padding-top:14px}
+  .secure b{color:var(--warn)}
+
+  /* ---- hardware highlight ---- */
+  .hwband{position:relative; overflow:hidden;
+    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--card)), var(--card2));
+    border:1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); border-radius:18px;
+    padding:30px 34px; box-shadow:var(--shadow);
+    display:flex; flex-wrap:wrap; gap:28px; align-items:center; justify-content:space-between}
+  .hwband .hwlead{flex:1 1 440px; max-width:62ch}
+  .hwtag{display:inline-block; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent2); margin-bottom:9px}
+  .hwband h3{font-size:25px; margin:0 0 9px; letter-spacing:-.4px}
+  .hwband p{margin:0; color:#cdd6ea; font-size:15px}
+  .hwstats{display:flex; gap:26px; flex:0 1 auto}
+  .hwstats div{text-align:center}
+  .hwstats b{display:block; font-size:23px; font-weight:700; color:#fff; letter-spacing:-.4px}
+  .hwstats span{font-size:12px; color:var(--muted); letter-spacing:.05em}
+  @media (max-width:760px){.hwstats{width:100%; justify-content:space-around}}
+  .hwband.alt{background:linear-gradient(135deg, color-mix(in srgb, var(--accent2) 12%, var(--card)), var(--card2));
+    border-color:color-mix(in srgb, var(--accent2) 40%, var(--line))}
+
+  /* ---- steps ---- */
+  .steps{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:6px}
+  @media (max-width:1000px){.steps{grid-template-columns:1fr 1fr}}
+  .step{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:20px; box-shadow:var(--shadow)}
+  .step .sn{display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px;
+    background:color-mix(in srgb, var(--accent) 20%, transparent); color:var(--accent); font-weight:700; margin-bottom:10px}
+  .step b{display:block; font-size:15px; margin-bottom:5px}
+  .step p{margin:0; font-size:13.5px; color:var(--muted)}
+  @media (max-width:760px){.steps{grid-template-columns:1fr}}
+
+  .who{font-size:14px; font-weight:700; letter-spacing:.05em; color:var(--fg); margin-bottom:8px}
+  footer a{color:var(--accent2); text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* ---- timeline ---- */
+  .timeline{position:relative; margin-top:8px; padding-left:28px}
+  .timeline:before{content:""; position:absolute; left:7px; top:8px; bottom:8px; width:2px; background:var(--line)}
+  .tl{position:relative; margin-bottom:20px}
+  .tl:last-child{margin-bottom:0}
+  .tl-dot{position:absolute; left:-28px; top:5px; width:16px; height:16px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--accent)}
+  .tl-dot.now{border-color:var(--accent2); background:color-mix(in srgb,var(--accent2) 35%, var(--bg))}
+  .tl-head{display:flex; flex-wrap:wrap; gap:4px 14px; align-items:baseline}
+  .tl-head b{font-size:16px}
+  .tl-date{font-size:12.5px; color:var(--accent2); letter-spacing:.03em; white-space:nowrap}
+  .tl-org{font-size:13px; color:var(--muted); margin:3px 0 6px}
+  .tl p{margin:0; font-size:14px; color:#b9c6e2}
+  .tl-edu{margin-top:18px; font-size:13px; color:var(--muted); border-top:1px dashed var(--line); padding-top:14px}
+
+  /* ---- achievements ---- */
+  .ach{display:flex; flex-direction:column; gap:12px; margin-top:4px}
+  .item{display:flex; gap:14px; background:var(--card2); border:1px solid var(--line);
+    border-radius:12px; padding:16px 18px}
+  .item .n{flex:0 0 30px; height:30px; border-radius:8px; background:color-mix(in srgb, var(--accent2) 18%, transparent);
+    color:var(--accent2); font-weight:700; display:grid; place-items:center; font-size:14px}
+  .item .body p{margin:0}
+  .item .body .h{font-weight:700; color:var(--fg); font-size:15px}
+  .item .body .d{color:var(--muted); font-size:13.5px}
+
+  /* ---- stack tags ---- */
+  .tagcloud{display:flex; flex-wrap:wrap; gap:9px; margin-top:4px}
+  .chip{font-size:13px; padding:6px 13px; border-radius:999px; background:var(--card);
+    border:1px solid var(--line); color:#c8d2e8}
+  .chip.core{border-color:color-mix(in srgb, var(--accent) 55%, var(--line)); color:var(--accent)}
+
+  /* ---- quote ---- */
+  blockquote{background:var(--card2); border-left:4px solid var(--accent); border-radius:0 12px 12px 0;
+    margin:8px 0 0; padding:22px 26px; color:#d6def2; font-size:17px; line-height:1.55}
+  blockquote b{color:#fff}
+
+  footer{margin-top:54px; color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:18px;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+
+  @media (max-width:760px){
+    .skills{grid-template-columns:1fr}
+    .nodes{grid-template-columns:1fr}
+    .pipe{flex-direction:row; padding:14px 0}
+    .pipe .arrows{transform:rotate(90deg)}
+    header{flex-direction:column}
+    .badges{flex-direction:row; flex-wrap:wrap}
+    .badge{flex:1 1 140px}
+  }
+  @media print{
+    body{background:#fff; color:#111}
+    .wrap{max-width:100%; padding:0}
+    .card,.node,.badge,.skill,.item,.chip{box-shadow:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="id-block">
+      <span class="tag">Portfolio de compétences · Entretien</span>
+      <div class="who">Rémi KHADIR · Bruxelles</div>
+      <h1>Architecte &amp; opérateur<br><span>d'infrastructures IA</span></h1>
+      <p class="role">Orchestration multi-agents · Systèmes &amp; sécurité · Inférence locale</p>
+      <p class="summary">
+        Je conçois, déploie et exploite de bout en bout des systèmes multi-agents auto-hébergés :
+        conception de la topologie, sécurité réseau, inférence de modèles open-weight, automatisation
+        et vérification. Le tout sans dépendance cloud, avec un souci constant de rigueur et de traçabilité.
+      </p>
+    </div>
+    <div class="badges">
+      <div class="badge"><div class="k">Approche</div><div class="v">Sécurité par défaut</div></div>
+      <div class="badge"><div class="k">Mode</div><div class="v">Auto-hébergé / hors-ligne</div></div>
+      <div class="badge"><div class="k">Statut</div><div class="v">Ouvert aux opportunités</div>
+        <a href="https://www.linkedin.com/in/r%C3%A9mi-khadir-055736131">linkedin.com/in/rémi-khadir</a></div>
+      <div class="badge"><div class="k">Langues</div><div class="v">Français · Anglais</div></div>
+    </div>
+  </header>
+
+  <section>
+    <h2><span class="bar"></span>Compétences clés</h2>
+    <div class="skills">
+      <div class="skill">
+        <div class="t"><span class="ic">🛡️</span> Validation &amp; vérification (SIL4)</div>
+        <ul>
+          <li>De la <b>spécification de test</b> à la preuve : exigences, cas de test, exécution, rapports</li>
+          <li><b>CENELEC EN&nbsp;50128 (SIL4)</b> · ERTMS/ETCS · environnement simulé</li>
+          <li><b>Non-régression</b>, cross-check et traçabilité des exigences</li>
+          <li>Définition de la <b>stratégie V&amp;V</b> et gestion des défauts</li>
+        </ul>
+      </div>
+
+
+      <div class="skill">
+        <div class="t"><span class="ic">🧠</span> Orchestration d'agents IA</div>
+        <ul>
+          <li>Pipelines <b>agent-à-agent</b> : planifier → déléguer → exécuter → vérifier → rapporter</li>
+          <li>Séparation <b>raisonnement / exécution</b> (nœud « cerveau » ↔ nœud « mains »)</li>
+          <li>Délégation, coordination et montée en charge de workers</li>
+          <li>Conception de topologies <b>évolutives et reproductibles</b></li>
+          <li>Maîtrise des harnais d'agents : <b>Hermes</b> et <b>Pi</b></li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">⚙️</span> Inférence locale &amp; modèles</div>
+        <ul>
+          <li><b>Qwen</b> comme modèle de référence, déployé et servi en production locale</li>
+          <li>Écosystème open-weight complémentaire : DeepSeek (V3 / R1), Llama, Mistral, Gemma, Phi, Ornith</li>
+          <li>Backends d'inférence : <b>vLLM</b> et <b>llama.cpp</b> (serveurs compatibles API)</li>
+          <li>Stacks <b>TTS auto-hébergées</b> (Kokoro, Chatterbox) fr/en</li>
+          <li>Zéro coût par token, aucune fuite de données</li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">🖥️</span> Administration systèmes</div>
+        <ul>
+          <li><b>Linux</b> (Debian-like) et <b>Windows 11</b></li>
+          <li>Services, démarrage automatique, gestion de processus</li>
+          <li>Environnements Python (<b>uv</b>, venv), dépendances</li>
+          <li>WSL2, GPU / ROCm, exécution headless</li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">🔒</span> Réseau &amp; sécurité</div>
+        <ul>
+          <li>SSH <b>par clé uniquement</b>, portée LAN</li>
+          <li>Pare-feu, API à jeton, isolation réseau</li>
+          <li><b>ACL strictes</b>, moindre privilège</li>
+          <li>Coordination multi-machines sur réseau privé</li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">🔧</span> Développement &amp; DevOps</div>
+        <ul>
+          <li><b>Git / GitHub</b> : branches par thème, PR, CI</li>
+          <li>Scripting <b>Python</b>, <b>Bash/POSIX</b>, <b>PowerShell</b></li>
+          <li>Workflows de collaboration assistés par agent</li>
+          <li>Documentation technique et rapports structurés</li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">🧪</span> Tests &amp; automatisation</div>
+        <ul>
+          <li>Automatisation navigateur (<b>Playwright</b>, headless)</li>
+          <li>Smoke tests, tests de perf, capture d'artefacts</li>
+          <li>Vérification de bout en bout, logs &amp; codes de sortie</li>
+          <li>Diagnostic méthodique et reproductible</li>
+        </ul>
+      </div>
+
+      <div class="skill">
+        <div class="t"><span class="ic">📊</span> Coordination, reporting &amp; client</div>
+        <ul>
+          <li>Planification d'activités de test sur <b>plusieurs phases projet</b></li>
+          <li><b>Indicateurs et rapports</b> d'avancement, comptes rendus précis</li>
+          <li>Démonstrations client, procédures de test et <b>acceptation</b></li>
+          <li>Encadrement d'équipe et <b>formation</b> de testeurs</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Parcours</h2>
+    <p>Ingénieur en validation &amp; vérification de systèmes ferroviaires critiques (ERTMS/ETCS, SIL4) — une discipline d'exigences, de traçabilité et de preuves, que j'applique aujourd'hui aux infrastructures d'IA.</p>
+    <div class="timeline">
+      <div class="tl"><div class="tl-dot"></div><div class="tl-body">
+        <div class="tl-head"><b>Test &amp; Commissioning Engineer</b><span class="tl-date">Mai 2026 – Juil. 2026</span></div>
+        <div class="tl-org">ALTEN · Bruxelles (sur site)</div>
+        <p>Coordination des activités de test et de mise en service à Bruxelles : indicateurs et rapports d'avancement sur plusieurs phases projet, préparation des démonstrations client, campagnes de test en laboratoire et sur site, rédaction et revue des procédures de test jusqu'à l'acceptation client, et gestion structurée des défauts.</p>
+      </div></div>
+      <div class="tl"><div class="tl-dot"></div><div class="tl-body">
+        <div class="tl-head"><b>V&amp;V Technical Leader</b><span class="tl-date">Fév. 2023 – 2025</span></div>
+        <div class="tl-org">Akkodis · Bruxelles</div>
+        <p>Encadrement d'une équipe de validation &amp; vérification : stratégie de test, spécifications, exécution, analyse des résultats et rapports de preuve.</p>
+      </div></div>
+      <div class="tl"><div class="tl-dot"></div><div class="tl-body">
+        <div class="tl-head"><b>Advanced V&amp;V Engineer · Program V&amp;V ERTMS-ETCS 2/3 (SIL4)</b><span class="tl-date">Déc. 2021 – 2025</span></div>
+        <div class="tl-org">Akkodis · mission Alstom, Charleroi (2021–2025)</div>
+        <p>Validation du logiciel RBC pour la solution ETCS2-TRK : validation SRD, analyse fonctionnelle, spécifications de test couvrant chaque exigence, environnement ERTMS simulé, exécution, analyse de logs, non-régression et rapports de preuve — conformité CENELEC EN&nbsp;50128 (SIL4).</p>
+      </div></div>
+      <div class="tl"><div class="tl-dot"></div><div class="tl-body">
+        <div class="tl-head"><b>Formateur V&amp;V SRD</b><span class="tl-date">Fév. 2022 – Déc. 2022</span></div>
+        <div class="tl-org">Alstom Inde (Bangalore)</div>
+        <p>Formation des Technical Leaders et des testeurs de l'équipe V&amp;V SRD de Bangalore.</p>
+      </div></div>
+      <div class="tl"><div class="tl-dot"></div><div class="tl-body">
+        <div class="tl-head"><b>Junior V&amp;V Engineer</b><span class="tl-date">Déc. 2019 – Nov. 2021</span></div>
+        <div class="tl-org">Akkodis (mission Alstom) · Bruxelles</div>
+        <p>Acquisition des compétences ERTMS ; validation &amp; vérification du firmware du Radio Block Center (RBC).</p>
+      </div></div>
+    </div>
+    <p class="tl-edu">M2 Ingénierie électrique, électronique et des communications (2019) · Licence Ingénierie électrique et électronique (2016) — Université Côte d'Azur</p>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Une réalisation concrète : mon infrastructure</h2>
+    <div class="diagram">
+      <div class="nodes">
+        <div class="node brain">
+          <div class="role"><span class="dot b"></span>Nœud Cerveau</div>
+          <div class="name">Jarvis · Linux</div>
+          <div class="desc">Planifie · Conçoit · Écrit le code · Décide · Coordonne</div>
+          <div class="model">Matériel : <b>NVIDIA DGX Spark</b> (GB10)<br>Modèle : <b>qwen3.8-flash-next</b> · inférence locale</div>
+        </div>
+        <div class="pipe">
+          <div class="lbl">SSH par clé · API sécurisée</div>
+          <div class="arrows">⇄ ⇄ ⇄</div>
+          <div class="lbl">LAN privé · zéro exposition internet</div>
+        </div>
+        <div class="node hands">
+          <div class="role"><span class="dot h"></span>Nœud Mains</div>
+          <div class="name">TARS · Windows</div>
+          <div class="desc">Builds lourds · Automatisation · Perf · Capture · Rapports</div>
+          <div class="model">Modèle : <b>ornith-1.5-122b</b> · provider Nous</div>
+        </div>
+      </div>
+      <div class="secure">
+        <span class="dot n"></span> Communication <b>100 % privée</b> : LAN, authentification par clé SSH uniquement, API de contrôle isolée par pare-feu.
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Les deux machines</h2>
+    <div class="hwband">
+      <div class="hwlead">
+        <span class="hwtag">Nœud cerveau · calcul</span>
+        <h3>NVIDIA DGX Spark</h3>
+        <p>Mes agents tournent sur une station Grace&nbsp;Blackwell — de la puissance de calcul de niveau serveur, posée sur un bureau. <b>Qwen</b> en modèle principal, servi en local : jusqu'à 200&nbsp;milliards de paramètres, sans cloud et sans coût par token.</p>
+      </div>
+      <div class="hwstats">
+        <div><b>1 PFLOPS</b><span>FP4</span></div>
+        <div><b>128 Go</b><span>unifiés</span></div>
+        <div><b>≤200 Md</b><span>paramètres</span></div>
+      </div>
+    </div>
+    <div class="hwband alt" style="margin-top:16px">
+      <div class="hwlead">
+        <span class="hwtag">Nœud mains · exécution</span>
+        <h3>Station Ryzen · Windows 11</h3>
+        <p>Une tour Ryzen 7 et Radeon RX 6750 XT dédiée à l'exécution : builds lourds, automatisation navigateur headless, mesures de performance et capture de preuves — le bras opérationnel du cluster.</p>
+      </div>
+      <div class="hwstats">
+        <div><b>Ryzen 7</b><span>8c/16t</span></div>
+        <div><b>32 Go</b><span>RAM</span></div>
+        <div><b>12 Go</b><span>VRAM</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Concevoir l'infrastructure qui convient</h2>
+    <p>Mes deux machines me servent de laboratoire : j'y prototype, je mesure et je valide avant de dimensionner. Fort de cette pratique, je conçois l'infrastructure adaptée à chaque besoin — du poste unique au cluster multi-nœuds, sur site comme en cloud — et je m'intègre aux frameworks et outils <b>déjà en place</b> plutôt que de les remplacer.</p>
+    <div class="steps">
+      <div class="step"><span class="sn">1</span><b>Prototyper</b><p>Preuve de concept rapide sur mon propre matériel, sans engagement ni coût externe.</p></div>
+      <div class="step"><span class="sn">2</span><b>Mesurer &amp; valider</b><p>Charges réelles, performance, coûts et contraintes de sécurité vérifiés sur banc d'essai.</p></div>
+      <div class="step"><span class="sn">3</span><b>Dimensionner &amp; déployer</b><p>Architecture ajustée au besoin : sur site, en cluster ou en cloud, avec plan de déploiement.</p></div>
+      <div class="step"><span class="sn">4</span><b>S'intégrer à l'existant</b><p>Je m'adapte aux frameworks et outils déjà en place, sans imposer de réécriture ni de rupture.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Ce que j'ai réalisé concrètement</h2>
+    <div class="ach">
+      <div class="item"><div class="n">1</div><div class="body">
+        <p class="h">Cluster multi-agents en production</p>
+        <p class="d">Deux agents autonomes (Linux + Windows) collaborant sur un pipeline cahier-des-charges → exécution → vérification, pilotés sur un réseau privé.</p>
+      </div></div>
+      <div class="item"><div class="n">2</div><div class="body">
+        <p class="h">Durcissement réseau complet</p>
+        <p class="d">SSH par clé sans mot de passe, API protégée par jeton et pare-feu, ACL restreintes — aucune surface d'exposition publique.</p>
+      </div></div>
+      <div class="item"><div class="n">3</div><div class="body">
+        <p class="h">Stack d'inférence 100 % locale</p>
+        <p class="d">Modèles open-weight et synthèse vocale auto-hébergés, sans cloud ni frais récurrents, avec bascule et remplacement de modèles à volonté.</p>
+      </div></div>
+      <div class="item"><div class="n">4</div><div class="body">
+        <p class="h">Automatisation &amp; vérification</p>
+        <p class="d">Tests navigateur headless, mesure de performance et capture de preuves systématique — chaque tâche produit un rapport vérifiable.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>Stack &amp; outils</h2>
+    <div class="tagcloud">
+      <span class="chip core">Agentic AI</span>
+      <span class="chip core">Orchestration multi-agents</span>
+      <span class="chip core">Inférence locale</span>
+      <span class="chip core">Model Serving</span>
+      <span class="chip core">Test &amp; Commissioning</span>
+      <span class="chip core">Administration Linux</span>
+      <span class="chip core">Sécurité réseau</span>
+      <span class="chip core">Python</span>
+      <span class="chip core">Automatisation</span>
+      <span class="chip">vLLM</span>
+      <span class="chip">llama.cpp</span>
+      <span class="chip">LLMs open-weight (Qwen, Ornith)</span>
+      <span class="chip">Accélération GPU (ROCm)</span>
+      <span class="chip">WSL2</span>
+      <span class="chip">Bash</span>
+      <span class="chip">PowerShell</span>
+      <span class="chip">Git / GitHub</span>
+      <span class="chip">REST APIs</span>
+      <span class="chip">SSH (clé)</span>
+      <span class="chip">Pare-feu &amp; ACL</span>
+      <span class="chip">Moindre privilège</span>
+      <span class="chip">Automatisation des tests</span>
+      <span class="chip">Playwright</span>
+      <span class="chip">Tests de performance</span>
+      <span class="chip">Prompt Engineering</span>
+      <span class="chip">TTS auto-hébergé</span>
+      <span class="chip">Documentation technique</span>
+      <span class="chip">Hermes</span>
+      <span class="chip">Pi harness</span>
+      <span class="chip">DGX Spark · GB10</span>
+      <span class="chip">V&V ferroviaire (CENELEC 50128 · SIL4)</span>
+      <span class="chip">ERTMS / ETCS</span>
+      <span class="chip">Traçabilité des exigences</span>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="bar"></span>En une phrase</h2>
+    <blockquote>
+      Je transforme une idée de service IA en infrastructure réelle et opérationnelle : <b>conception, sécurisation,
+      déploiement et exploitation de bout en bout</b> — avec des agents qui s'organisent, travaillent et rendent des comptes.
+    </blockquote>
+  </section>
+
+  <footer>
+    <span>Portfolio de compétences · Orchestration IA</span>
+    <span>Jarvis (qwen3.8-flash-next) · TARS (ornith-1.5-122b) · LAN privé sécurisé</span>
+    <a href="https://www.linkedin.com/in/r%C3%A9mi-khadir-055736131">linkedin.com/in/rémi-khadir</a>
+  </footer>
+
+</div>
+</body>
+</html>

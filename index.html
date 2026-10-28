@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — AI Orchestration &amp; Infrastructure</title>
+<style>
+  :root{
+    --bg:#0b0f1a; --card:#131a2b; --card2:#0f1626; --line:#263149;
+    --fg:#e7ecf5; --muted:#93a0bd; --accent:#5b8cff; --accent2:#37d3a6;
+    --shadow:0 10px 30px rgba(0,0,0,.45);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:radial-gradient(1200px 700px at 70% -10%, #16203a 0%, var(--bg) 55%);
+    color:var(--fg);
+    font:16px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:70px 26px 100px}
+  .tag{display:inline-block; font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--accent2); border:1px solid var(--line); border-radius:999px; padding:5px 12px; margin-bottom:18px}
+  h1{font-size:40px; line-height:1.1; margin:0 0 10px; letter-spacing:-.6px}
+  h1 span{color:var(--accent)}
+  .role{font-size:19px; color:var(--muted); margin:0 0 18px}
+  .summary{font-size:16px; color:#cdd6ea; max-width:62ch; margin:0 0 40px}
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:16px; padding:26px;
+    box-shadow:var(--shadow); text-decoration:none; color:var(--fg); display:block;
+    transition:transform .15s ease, border-color .15s ease}
+  .card:hover{transform:translateY(-3px); border-color:var(--accent)}
+  .card .k{font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent2); margin-bottom:10px}
+  .card h2{font-size:20px; margin:0 0 8px}
+  .card p{color:var(--muted); font-size:14px; margin:0}
+  .card .go{display:inline-block; margin-top:16px; font-size:13px; color:var(--accent); font-weight:600}
+  footer{margin-top:50px; color:var(--muted); font-size:13px}
+  @media(max-width:720px){.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">Portfolio</span>
+  <h1>AI Orchestration <span>&amp;</span> Infrastructure</h1>
+  <p class="role">Two-machine agent setup · Windows + Linux · LAN-scoped, security-first</p>
+  <p class="summary">A portfolio of skills and competencies around orchestrating autonomous AI agents across a two-machine infrastructure — planning, heavy builds, browser smoke-testing, and secure cross-machine handoffs.</p>
+
+  <div class="cards">
+    <a class="card" href="portfolio-skills-interview.html">
+      <div class="k">Skills · English</div>
+      <h2>Skills Portfolio</h2>
+      <p>AI orchestration &amp; infrastructure skills, architecture, and tooling.</p>
+      <span class="go">Open →</span>
+    </a>
+    <a class="card" href="portfolio-competences-entretien.html">
+      <div class="k">Compétences · Français</div>
+      <h2>Portfolio de compétences</h2>
+      <p>Orchestration IA &amp; infrastructures — compétences et expérience.</p>
+      <span class="go">Ouvrir →</span>
+    </a>
+  </div>
+
+  <footer>Hosted on GitHub Pages · <a href="https://github.com/Coualafool/Portfolio" style="color:var(--accent2)">source</a></footer>
+</div>
+</body>
+</html>
